@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Fragrâncias - Passa Fácil Casa Guimarães (Expoagas)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0D2B5C',
+                            navyDark: '#081B3B',
+                            pink: '#EE2A7B',
+                            pinkDark: '#C71B62',
+                            pinkLight: '#FDE8F0',
+                            roseSoft: '#FFF0F5',
+                            accentGold: '#D4AF37'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFF0F5 0%, #FDE8F0 40%, #0D2B5C 100%);
+            min-height: 100vh;
+        }
+
+        .heading-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(13, 43, 92, 0.12);
+        }
+
+        /* Floating petal animation */
+        @keyframes floatPetal {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
+            50% { transform: translateY(-15px) rotate(10deg); opacity: 1; }
+            100% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
+        }
+
+        .petal-float {
+            animation: floatPetal 4s ease-in-out infinite;
+        }
+
+        .petal-delay-1 { animation-delay: 1s; }
+        .petal-delay-2 { animation-delay: 2s; }
+
+        /* Custom radio card selection effect */
+        .option-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #F3F4F6;
+        }
+
+        .option-card:hover {
+            transform: translateY(-2px);
+            border-color: #EE2A7B;
+            box-shadow: 0 10px 20px rgba(238, 42, 123, 0.15);
+        }
+
+        .option-card.selected {
+            border-color: #EE2A7B;
+            background-color: #FDE8F0;
+            box-shadow: 0 0 0 3px rgba(238, 42, 123, 0.25);
+        }
+
+        /* Progress Bar transition */
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800 antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- Header Section / Branding Banner -->
+    <header class="bg-brand-navy text-white shadow-xl relative overflow-hidden border-b-4 border-brand-pink">
+        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand-pink/20 rounded-full blur-2xl"></div>
+        <div class="max-w-5xl mx-auto px-4 py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between relative z-10 gap-4">
+            
+            <!-- Brand Logos -->
+            <div class="flex items-center gap-3 text-center sm:text-left">
+                <div class="bg-white p-2 rounded-xl shadow-md flex items-center justify-center">
+                    <i class="fa-solid font-bold text-2xl text-brand-pink fa-spray-can-sparkles"></i>
+                </div>
+                <div>
+                    <span class="text-xs tracking-widest text-brand-pink font-semibold uppercase block">Casa Guimarães</span>
+                    <h1 class="heading-font text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                        PASSA FÁCIL
+                    </h1>
+                    <p class="text-xs text-pink-200">Não precisa passar • Desamassa com as mãos</p>
+                </div>
+            </div>
+
+            <!-- Expoagas Event Badge -->
+            <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 flex items-center gap-2">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-medium text-white">Pesquisa de Fragrâncias • <strong>EXPOAGAS</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 flex flex-col justify-center">
+
+        <!-- QUIZ CONTAINER CARD -->
+        <div class="glass-card rounded-3xl p-6 sm:p-10 transition-all duration-300 relative overflow-hidden">
+            
+            <!-- Floating Decorative Elements -->
+            <div class="absolute top-3 right-4 text-brand-pink/20 text-4xl petal-float"><i class="fa-solid fa-leaf"></i></div>
+            <div class="absolute bottom-4 left-4 text-brand-pink/15 text-3xl petal-float petal-delay-1"><i class="fa-solid fa-spa"></i></div>
+
+            <!-- STEP 0: START / INTRO SCREEN -->
+            <div id="step-intro" class="text-center py-4 space-y-6">
+                <!-- Feature Badges -->
+                <div class="flex flex-wrap justify-center gap-3 text-xs font-semibold text-brand-navy">
+                    <span class="bg-brand-roseSoft border border-pink-200 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                        <i class="fa-solid fa-hand text-brand-pink"></i> Desamassa com as mãos
+                    </span>
+                    <span class="bg-brand-roseSoft border border-pink-200 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                        <i class="fa-solid fa-bolt text-brand-pink"></i> Sua roupa pronta em spray
+                    </span>
+                    <span class="bg-brand-roseSoft border border-pink-200 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                        <i class="fa-solid fa-wind text-brand-pink"></i> Perfuma e bloqueia odores
+                    </span>
+                </div>
+
+                <div class="space-y-3 max-w-2xl mx-auto">
+                    <h2 class="heading-font text-2xl sm:text-4xl font-extrabold text-brand-navy leading-snug">
+                        Ajude a escolher o aroma da nova versão do <span class="text-brand-pink">Passa Fácil!</span>
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Responda a <strong>3 perguntas simples sobre suas emoções e preferências</strong>. O seu voto ajudará a Casa Guimarães a lançar o próximo perfume de sucesso no mercado!
+                    </p>
+                </div>
+
+                <div class="pt-4">
+                    <button onclick="startQuiz()" class="w-full sm:w-auto px-10 py-4 bg-brand-pink hover:bg-brand-pinkDark text-white font-heading font-bold text-lg rounded-2xl shadow-lg hover:shadow-pink-500/30 transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 mx-auto">
+                        <span>Iniciar Experiência Olfativa</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP QUIZ HEADER (Visible during questions) -->
+            <div id="quiz-header" class="hidden mb-8">
+                <div class="flex items-center justify-between text-xs font-bold text-brand-navy uppercase tracking-wider mb-2">
+                    <span id="question-indicator">Pergunta 1 de 3</span>
+                    <span id="progress-percent">33%</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden p-0.5 border border-slate-200">
+                    <div id="progress-bar" class="progress-bar-fill bg-gradient-to-r from-brand-pink to-brand-navy h-full rounded-full w-1/3"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 1 CONTAINER -->
+            <div id="question-1" class="hidden space-y-6">
+                <h3 class="heading-font text-xl sm:text-2xl font-bold text-brand-navy">
+                    1. Como você deseja se sentir ao vestir sua roupa limpa e pronta para o dia?
+                </h3>
+                <p class="text-sm text-slate-500">Escolha a sensação que mais traduz o seu desejo:</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="selectAnswer(1, 'alegre', 'cerejeira')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-12 h-12 rounded-xl bg-pink-100 text-brand-pink flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-navy text-base">Alegre e Energizada</h4>
+                            <p class="text-xs text-slate-500">Vibração positiva, entusiasmo e doçura festiva.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectAnswer(1, 'relaxada', 'lavanda')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-spa"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-navy text-base">Calma e Mística</h4>
+                            <p class="text-xs text-slate-500">Paz interior, limpeza profunda e serenidade.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectAnswer(1, 'acolhida', 'coco')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-navy text-base">Aconchegada e Protegida</h4>
+                            <p class="text-xs text-slate-500">Sensação de abraço quente, conforto e carinho.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectAnswer(1, 'elegante', 'orchid')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-navy text-base">Elegante e Confiante</h4>
+                            <p class="text-xs text-slate-500">Sofisticação, presença marcante e luxo.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectAnswer(1, 'renovada', 'brisa')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white sm:col-span-2">
+                        <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-wind"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-navy text-base">Renovada e Leve</h4>
+                            <p class="text-xs text-slate-500">Frescor natural, liberdade e brisa de ar puro.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUESTION 2 CONTAINER -->
+            <div id="question-2" class="hidden space-y-6">
+                <h3 class="heading-font text-xl sm:text-2xl font-bold text-brand-navy">
+                    2. Qual destes momentos de bem-estar traz mais paz para o seu dia a dia?
+                </h3>
+                <p class="text-sm text-slate-500">Selecione o cenário que mais te inspira:</p>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="selectAnswer(2, 'jardim', 'cerejeira')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-pink-100 text-brand-pink flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <span class="font-semibold text-slate-700 text-sm">Caminhar em um jardim florido em uma manhã ensolarada.</span>
+                    </button>
+
+                    <button onclick="selectAnswer(2, 'banho', 'lavanda')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-bath"></i>
+                        </div>
+                        <span class="font-semibold text-slate-700 text-sm">Um momento de autocuidado relaxante após um dia longo.</span>
+                    </button>
+
+                    <button onclick="selectAnswer(2, 'cafe', 'coco')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-mug-hot"></i>
+                        </div>
+                        <span class="font-semibold text-slate-700 text-sm">Tomar uma bebida quente coberta de doçura no sofá aconchegante.</span>
+                    </button>
+
+                    <button onclick="selectAnswer(2, 'jantar', 'orchid')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-wine-glass"></i>
+                        </div>
+                        <span class="font-semibold text-slate-700 text-sm">Um evento especial ao anoitecer com perfume inesquecível.</span>
+                    </button>
+
+                    <button onclick="selectAnswer(2, 'brisa', 'brisa')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-mountain-sun"></i>
+                        </div>
+                        <span class="font-semibold text-slate-700 text-sm">A sensação do ar puro e brisa das florestas na janela de casa.</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUESTION 3 CONTAINER -->
+            <div id="question-3" class="hidden space-y-6">
+                <h3 class="heading-font text-xl sm:text-2xl font-bold text-brand-navy">
+                    3. Escreva ou selecione uma palavra que define a sua emoção de hoje:
+                </h3>
+
+                <!-- Emotion Chips -->
+                <div class="space-y-2">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sugestões de emoção (clique para escolher):</p>
+                    <div class="flex flex-wrap gap-2" id="emotion-chips-container">
+                        <!-- Chips inserted dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Custom Input -->
+                <div class="space-y-2 pt-2">
+                    <label for="custom-emotion" class="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
+                        Ou digite sua emoção pessoal:
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="custom-emotion" placeholder="Ex: Tranquilidade, Alegria, Conforto..." class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-pink focus:border-brand-pink outline-none text-brand-navy font-medium text-sm transition-all" />
+                        <button onclick="submitEmotionText()" class="absolute right-2 top-2 bottom-2 px-5 bg-brand-pink text-white rounded-lg font-bold text-xs hover:bg-brand-pinkDark transition-colors">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULT SCREEN CONTAINER -->
+            <div id="step-result" class="hidden space-y-8">
+                
+                <div class="text-center space-y-2">
+                    <span class="inline-block bg-pink-100 text-brand-pink text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Seu Resultado com Inteligência Olfativa Gemini
+                    </span>
+                    <h2 class="heading-font text-3xl sm:text-4xl font-extrabold text-brand-navy">
+                        Sua Fragrância Ideal é:
+                    </h2>
+                </div>
+
+                <!-- Match Product Card -->
+                <div class="bg-gradient-to-br from-white to-pink-50 border-2 border-brand-pink/30 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center gap-8">
+                    
+                    <!-- Bottle Visual Representation & AI Moodboard -->
+                    <div class="w-full md:w-1/3 flex flex-col items-center justify-center shrink-0 space-y-3">
+                        <div id="result-bottle-bg" class="w-44 h-56 rounded-3xl flex flex-col items-center justify-center p-4 relative shadow-inner border-2 border-white overflow-hidden group bg-cover bg-center transition-all duration-500">
+                            <!-- Overlay for readability when background image is generated -->
+                            <div id="bottle-overlay" class="absolute inset-0 bg-black/20 hidden transition-opacity"></div>
+                            
+                            <div class="relative z-10 flex flex-col items-center">
+                                <i class="fa-solid fa-spray-can text-6xl text-white drop-shadow-md mb-2"></i>
+                                <div class="bg-white/95 backdrop-blur px-3 py-1.5 rounded-xl text-center shadow">
+                                    <span class="text-[10px] font-bold text-slate-400 block uppercase">Passa Fácil</span>
+                                    <span id="result-fragrance-name" class="font-extrabold text-xs text-brand-navy block leading-tight">Flor de cerejeira</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Moodboard Action Button -->
+                        <button onclick="generateAIMoodboard()" id="btn-generate-moodboard" class="w-full py-2 px-3 bg-white/80 hover:bg-white text-brand-navy border border-pink-200 hover:border-brand-pink rounded-xl text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-image text-brand-pink"></i>
+                            <span>Gerar Moodboard Visual IA</span>
+                        </button>
+                    </div>
+
+                    <!-- Details, Pyramid & Gemini Voice Narration -->
+                    <div class="w-full md:w-2/3 space-y-4 text-left">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h3 id="result-title" class="heading-font text-2xl font-extrabold text-brand-navy">
+                                    Flor de cerejeira
+                                </h3>
+                                <p id="result-families" class="text-xs font-semibold text-brand-pink tracking-wide uppercase mt-0.5">
+                                    Floral • Fruity / Gourmand • Citrus
+                                </p>
+                            </div>
+
+                            <!-- Gemini Audio Experience Button -->
+                            <button onclick="playAIAudioNarration()" id="btn-play-audio" class="px-4 py-2 bg-gradient-to-r from-brand-pink to-brand-navy text-white text-xs font-bold rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-volume-high text-amber-300"></i>
+                                <span id="audio-btn-text">Ouvir Guia Olfativo IA</span>
+                            </button>
+                        </div>
+
+                        <p id="result-reason" class="text-sm text-slate-700 leading-relaxed bg-white/70 p-3.5 rounded-xl border border-pink-100">
+                            Sua energia radiante e contagiante pede uma explosão frutada e floral!
+                        </p>
+
+                        <!-- Dynamic AI Emotional Reflection -->
+                        <div id="ai-reflection-box" class="hidden bg-pink-50/80 border border-pink-200 rounded-xl p-3 text-xs text-slate-700 italic">
+                            <span class="font-bold not-italic text-brand-pink flex items-center gap-1 mb-1">
+                                <i class="fa-solid fa-sparkles"></i> Reflexão Olfativa Personalizada (Gemini AI):
+                            </span>
+                            <span id="ai-reflection-text"></span>
+                        </div>
+
+                        <!-- Olfactive Pyramid -->
+                        <div class="space-y-2 pt-1 text-xs">
+                            <h4 class="font-bold text-brand-navy uppercase tracking-wider text-[11px] flex items-center gap-1">
+                                <i class="fa-solid fa-layer-group text-brand-pink"></i> Pirâmide Olfativa (Fórmula Oficial)
+                            </h4>
+                            <div class="grid grid-cols-1 gap-1.5 text-slate-600">
+                                <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-100">
+                                    <strong class="text-brand-navy">Saída (Top):</strong> <span id="result-top">Pêra, Berries, Abacaxi</span>
+                                </div>
+                                <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-100">
+                                    <strong class="text-brand-navy">Corpo (Middle):</strong> <span id="result-middle">Flor de Maçã, Lírio do Vale</span>
+                                </div>
+                                <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-100">
+                                    <strong class="text-brand-navy">Fundo (Dry-down):</strong> <span id="result-dry">Musk, Âmbar, Pêssego</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GEMINI AI SOMMELIER CHAT SECTION -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-md space-y-4">
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 class="heading-font text-base font-bold text-brand-navy">
+                                Sommelier Olfativo Casa Guimarães (Gemini IA)
+                            </h3>
+                            <p class="text-xs text-slate-500">
+                                Dúvidas sobre como aplicar nos tecidos, combinar fragrâncias ou cuidar de roupas delicadas? Pergunte ao especialista!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Output -->
+                    <div id="ai-chat-messages" class="h-44 overflow-y-auto space-y-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs">
+                        <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 text-slate-700 max-w-[85%]">
+                            <strong>Sommelier IA:</strong> Olá! Sou o especialista em perfumaria e facilidade da Casa Guimarães. Como posso te ajudar a aproveitar ao máximo o seu Passa Fácil hoje?
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="flex gap-2">
+                        <input type="text" id="ai-chat-input" placeholder="Ex: Como aplicar no tecido de algodão ou cama/banho?" class="flex-grow px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-pink outline-none text-xs text-slate-800" onkeydown="if(event.key==='Enter') sendSommelierMessage()">
+                        <button onclick="sendSommelierMessage()" id="btn-send-chat" class="px-5 bg-brand-navy hover:bg-brand-navyDark text-white font-bold rounded-xl text-xs transition-colors flex items-center gap-1.5 shrink-0">
+                            <span>Perguntar</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- LIVE SCOREBOARD / EXPOAGAS VOTING RANKING -->
+                <div class="bg-brand-navy text-white rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+                        <div>
+                            <h3 class="heading-font text-xl font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-chart-simple text-brand-pink"></i> Ranking Parcial Expoagas
+                            </h3>
+                            <p class="text-xs text-slate-300">Seu voto foi registrado com sucesso para a escolha da nova versão!</p>
+                        </div>
+                        <span class="bg-brand-pink/20 text-brand-pink border border-brand-pink/40 text-xs px-3 py-1 rounded-full font-bold self-start sm:self-auto">
+                            Votação ao Vivo
+                        </span>
+                    </div>
+
+                    <!-- Progress bars for each fragrance -->
+                    <div id="ranking-container" class="space-y-4">
+                        <!-- Injected via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                    <button onclick="restartQuiz()" class="flex-1 py-3.5 px-6 rounded-xl border-2 border-brand-navy text-brand-navy font-bold text-sm hover:bg-brand-navy hover:text-white transition-all text-center">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> Responder Novamente
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto">
+        <p>© 2026 <strong>Casa Guimarães</strong> - Produtos de Limpeza • Estande Oficial Expoagas</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // --- Configuração do Supabase ---
+        // Substitua pelos valores do seu projeto em Project Settings > API
+        const SUPABASE_URL = "https://dfctprzewtjgazszjxla.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_o9esyzFoB5cr1-Mo-ItrmA_YqMxVKM3";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Fragrance Database with updated names matching original PDFs
+        const fragrances = {
+            cerejeira: {
+                id: "cerejeira",
+                name: "Flor de cerejeira",
+                families: "Floral, Fruity / Gourmand, Citrus",
+                top: "Pêra, Berries, Abacaxi, Melancia",
+                middle: "Flor de Maçã, Lírio do Vale, Gourmand, Musgo de Carvalho",
+                dry: "Musk, Âmbar, Pêssego, Framboesa",
+                reason: "Sua energia radiante e contagiante pede uma explosão frutada e floral! A flor de cerejeira combina perfeitamente com sua alegria e vibração positiva.",
+                color: "#EE2A7B",
+                promptDesc: "cherry blossoms, fruity pear and berries, glowing cheerful pink floral petals, fresh folded white cotton linen spray mist"
+            },
+            lavanda: {
+                id: "lavanda",
+                name: "Lavanda e Rosas Brancas",
+                families: "Floral, Aromatic, Musky",
+                top: "Lavanda, Bergamota, Gálbano",
+                middle: "Jasmim, Rosa, Lírio do Vale",
+                dry: "Musk, Âmbar, Baunilha, Coumarina",
+                reason: "Sua busca por serenidade e paz ganha vida com Lavanda e Rosas Brancas. Ela envolve as roupas em uma aura limpa, relaxante e harmoniosa.",
+                color: "#8B5CF6",
+                promptDesc: "lavender fields and pristine white roses, relaxing spa atmosphere, calm purple and white clean soft bedsheet fabrics"
+            },
+            coco: {
+                id: "coco",
+                name: "Coco & Amêndoas",
+                families: "Fruity, Gourmand",
+                top: "Notas Florais Leves",
+                middle: "Jasmim, Leite de Coco, Maltol",
+                dry: "Coumarina, Baunilha, Musk",
+                reason: "O aconchego é a sua prioridade! As notas cremosas de coco e baunilha trazem aquela sensação insubstituível de abraço e conforto nas roupas.",
+                color: "#D97706",
+                promptDesc: "warm coconut milk and sweet almond vanilla, soft golden cozy blanket texture, warm comforting home ambiance"
+            },
+            orchid: {
+                id: "orchid",
+                name: "Rosas Intensas",
+                families: "Floral, Oriental",
+                top: "Aldeídico, Cítrico Fresco",
+                middle: "Floriental, Rosa, Flores Brancas",
+                dry: "Âmbar, Sândalo, Fava Tonka",
+                reason: "Você exala elegância e confiança. A fragrância Rosas Intensas traduz sua sofisticação e presença marcante em toques florais e orientais luxuosos.",
+                color: "#4F46E5",
+                promptDesc: "luxurious intense red and royal purple roses, oriental amber sandalwood notes, elegant silk texture, luxury ambiance"
+            },
+            brisa: {
+                id: "brisa",
+                name: "Carinho e Conforto",
+                families: "Chypre, Woody, Spicy",
+                top: "Aldeídico, Lima, Eucalipto, Melão",
+                middle: "Verde, Gálbano, Rosa, Maçã",
+                dry: "Sândalo, Pêssego, Âmbar, Patchouli",
+                reason: "Sua busca é pelo equilíbrio e frescor natural. A fragrância Carinho e Conforto traz a serenidade da brisa e a profundidade da terra.",
+                color: "#0D9488",
+                promptDesc: "fresh mountain breeze, green oakmoss, eucalyptus leaves, crisp fresh air blowing through clean white hanging laundry"
+            }
+        };
+
+        const emotionChips = [
+            { text: "Alegria e Energia", key: "cerejeira" },
+            { text: "Paz e Tranquilidade", key: "lavanda" },
+            { text: "Achego e Carinho", key: "coco" },
+            { text: "Elegância e Poder", key: "orchid" },
+            { text: "Frescor e Leveza", key: "brisa" },
+            { text: "Amor Próprio", key: "cerejeira" },
+            { text: "Serenidade", key: "lavanda" },
+            { text: "Gratidão", key: "coco" }
+        ];
+
+        // Live poll votes — carregados e sincronizados em tempo real via Supabase
+        let pollVotes = {
+            cerejeira: 0,
+            lavanda: 0,
+            coco: 0,
+            orchid: 0,
+            brisa: 0
+        };
+
+        async function fetchVoteCounts() {
+            const { data, error } = await supabase
+                .from('votes')
+                .select('fragrance_key');
+
+            if (error) {
+                console.error('Erro ao buscar votos:', error);
+                return;
+            }
+
+            const counts = { cerejeira: 0, lavanda: 0, coco: 0, orchid: 0, brisa: 0 };
+            (data || []).forEach(row => {
+                if (counts[row.fragrance_key] !== undefined) counts[row.fragrance_key]++;
+            });
+            pollVotes = counts;
+        }
+
+        async function castVote(fragranceKey) {
+            // Totem compartilhado: cada finalização do quiz é uma pessoa diferente votando,
+            // então não há trava por dispositivo aqui — "votar de novo" = reiniciar a tela.
+            const { error } = await supabase
+                .from('votes')
+                .insert({ fragrance_key: fragranceKey });
+
+            if (error) {
+                console.error('Erro ao registrar voto:', error);
+                return false;
+            }
+
+            return true;
+        }
+
+        // Atualiza o ranking em tempo real quando qualquer pessoa vota, em qualquer dispositivo
+        supabase
+            .channel('votes-live')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, async () => {
+                await fetchVoteCounts();
+                if (!document.getElementById('step-result').classList.contains('hidden')) {
+                    renderRanking();
+                }
+            })
+            .subscribe();
+
+        // Quiz State
+        let currentStep = 0;
+        let selectedScores = {
+            cerejeira: 0,
+            lavanda: 0,
+            coco: 0,
+            orchid: 0,
+            brisa: 0
+        };
+        let currentWinner = null;
+        let userCustomEmotionText = "";
+
+        // API Helpers with Backoff Exponential
+        async function fetchWithRetry(url, options, maxRetries = 3) {
+            let delay = 1000;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const res = await fetch(url, options);
+                    if (res.ok) return res;
+                } catch (e) {
+                    // Retry silently
+                }
+                await new Promise(r => setTimeout(r, delay));
+                delay *= 2;
+            }
+            throw new Error("Falha na conexão com a API Gemini.");
+        }
+
+        // GEMINI API FUNCTION 1: Custom Emotion Deep Analysis
+        async function analyzeEmotionWithGemini(text) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const prompt = `Analise a seguinte emoção de um cliente na feira Expoagas: "${text}".
+            Temos 5 fragrâncias para o produto "Passa Fácil Casa Guimarães":
+            1. cerejeira (Flor de cerejeira - Alegre, radiante, doce, frutada)
+            2. lavanda (Lavanda e Rosas Brancas - Calma, relaxante, paz, banho limpo)
+            3. coco (Coco & Amêndoas - Conforto, abraço, aconchego, baunilha)
+            4. orchid (Rosas Intensas - Elegância, luxo, poder, sofisticação)
+            5. brisa (Carinho e Conforto - Frescor natural, brisa de ar puro, natureza)
+
+            Retorne um JSON estrito no seguinte formato:
+            {
+               "fragranceKey": "uma das 5 chaves acima",
+               "reflection": "uma frase curta e inspiradora (máximo 20 palavras) ligando a emoção descrita à fragrância escolhida."
+            }`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+                const result = await response.json();
+                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (jsonText) {
+                    return JSON.parse(jsonText);
+                }
+            } catch (err) {
+                console.error("Gemini Emotion analysis fallback:", err);
+            }
+            return null;
+        }
+
+        // GEMINI API FUNCTION 2: Imagen Moodboard Generator
+        async function generateAIMoodboard() {
+            if (!currentWinner) return;
+            const btn = document.getElementById('btn-generate-moodboard');
+            const bottleBg = document.getElementById('result-bottle-bg');
+            const overlay = document.getElementById('bottle-overlay');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-brand-pink"></i> Generating AI Moodboard...`;
+
+            const userPrompt = `A high quality aesthetic luxury moodboard photo for perfume and laundry spray fragrance '${currentWinner.name}'. Elements: ${currentWinner.promptDesc}, soft natural sunlight, cinematic lighting, 8k resolution, minimalist design.`;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        instances: [{ prompt: userPrompt }],
+                        parameters: { sampleCount: 1 }
+                    })
+                });
+                const data = await response.json();
+                const base64 = data?.predictions?.[0]?.bytesBase64Encoded;
+
+                if (base64) {
+                    const imgUrl = `data:image/png;base64,${base64}`;
+                    bottleBg.style.backgroundImage = `url('${imgUrl}')`;
+                    overlay.classList.remove('hidden');
+                    btn.innerHTML = `<i class="fa-solid fa-check text-emerald-500"></i> Moodboard Gerado!`;
+                } else {
+                    throw new Error("Sem dados de imagem");
+                }
+            } catch (err) {
+                btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Tentar Novamente`;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // GEMINI API FUNCTION 3: TTS Sensory Audio Experience
+        let currentAudio = null;
+        async function playAIAudioNarration() {
+            if (!currentWinner) return;
+            const btnText = document.getElementById('audio-btn-text');
+            const btn = document.getElementById('btn-play-audio');
+
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                btnText.innerText = "Ouvir Guia Olfativo IA";
+                return;
+            }
+
+            btnText.innerText = "Gerando Áudio IA...";
+            btn.disabled = true;
+
+            const textToSpeak = `Diga com uma voz acolhedora, serena e relaxante: "Seja bem-vindo à experiência Passa Fácil Casa Guimarães na Expoagas. Sua fragrância ideal é ${currentWinner.name}. Suas notas de saída combinam ${currentWinner.top}, trazendo um toque inesquecível de ${currentWinner.families}. Desfrute do prazer de roupas macias, cheirosas e prontas sem esforço."`;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: textToSpeak }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: {
+                                    prebuiltVoiceConfig: { voiceName: "Aoede" }
+                                }
+                            }
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const base64Audio = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType || "audio/L16;rate=24000";
+
+                if (base64Audio) {
+                    let sampleRate = 24000;
+                    const match = mimeType.match(/rate=(\d+)/);
+                    if (match) sampleRate = parseInt(match[1], 10);
+
+                    const pcmData = base64ToArrayBuffer(base64Audio);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+
+                    currentAudio = new Audio(audioUrl);
+                    currentAudio.onended = () => {
+                        btnText.innerText = "Ouvir Guia Olfativo IA";
+                        currentAudio = null;
+                    };
+                    currentAudio.play();
+                    btnText.innerText = "Pausar Guia Olfativo";
+                } else {
+                    throw new Error("Áudio indisponível");
+                }
+            } catch (e) {
+                console.error("TTS Error:", e);
+                btnText.innerText = "Erro ao gerar áudio";
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Helper PCM to WAV Converter
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcmInt16Array, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2;
+            const blockAlign = numChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+            const dataSize = pcmInt16Array.length * bytesPerSample;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            const writeString = (v, offset, str) => {
+                for (let i = 0; i < str.length; i++) v.setUint8(offset + i, str.charCodeAt(i));
+            };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, dataSize, true);
+
+            let offset = 44;
+            for (let i = 0; i < pcmInt16Array.length; i++, offset += 2) {
+                view.setInt16(offset, pcmInt16Array[i], true);
+            }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        // GEMINI API FUNCTION 4: Sommelier Interactive Chat
+        async function sendSommelierMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatContainer = document.getElementById('ai-chat-messages');
+            
+            // Append User Message
+            const userDiv = document.createElement('div');
+            userDiv.className = "bg-brand-navy/10 text-brand-navy p-3 rounded-xl border border-brand-navy/20 max-w-[85%] ml-auto text-right font-medium";
+            userDiv.innerText = text;
+            chatContainer.appendChild(userDiv);
+
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Loading Indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = "bg-white p-3 rounded-xl shadow-sm border border-slate-200 text-slate-400 italic max-w-[85%]";
+            loadingDiv.id = "chat-loading";
+            loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-brand-pink"></i> Consultando Sommelier Casa Guimarães...`;
+            chatContainer.appendChild(loadingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const systemPrompt = `Você é o Sommelier de Fragrâncias e Especialista do produto Passa Fácil da Casa Guimarães no evento Expoagas.
+            O usuário está no resultado da fragrância "${currentWinner ? currentWinner.name : 'Passa Fácil'}".
+            Forneça respostas curtas, corteses, profissionais e práticas (máximo 3 frases) sobre tecidos (algodão, lençóis, cortinas, seda), modo de aplicação (borrifar e desamassar com as mãos) ou perfumaria. Sempre promova a praticidade e a economia de tempo do Passa Fácil.`;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+                const result = await response.json();
+                const aiResponse = result.candidates?.[0]?.content?.parts?.[0]?.text || "O Passa Fácil é ideal para renovar tecidos rapidamente sem precisar de ferro de passar!";
+
+                document.getElementById('chat-loading')?.remove();
+
+                const aiDiv = document.createElement('div');
+                aiDiv.className = "bg-white p-3 rounded-xl shadow-sm border border-slate-200 text-slate-700 max-w-[85%]";
+                aiDiv.innerHTML = `<strong>Sommelier IA:</strong> ${aiResponse}`;
+                chatContainer.appendChild(aiDiv);
+            } catch (e) {
+                document.getElementById('chat-loading')?.remove();
+                const errDiv = document.createElement('div');
+                errDiv.className = "bg-red-50 text-red-600 p-3 rounded-xl text-xs";
+                errDiv.innerText = "Desculpe, ocorreu uma instabilidade na conexão. Tente perguntar novamente.";
+                chatContainer.appendChild(errDiv);
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Initialize Chips
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('emotion-chips-container');
+            emotionChips.forEach(chip => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-brand-pink hover:text-white text-xs font-semibold text-slate-700 transition-all shadow-sm';
+                btn.innerText = chip.text;
+                btn.onclick = () => selectChipEmotion(chip.key);
+                container.appendChild(btn);
+            });
+
+            fetchVoteCounts();
+        });
+
+        function startQuiz() {
+            currentStep = 1;
+            updateStepVisibility();
+        }
+
+        function selectAnswer(questionNum, tag, fragKey) {
+            selectedScores[fragKey] += 2;
+            
+            if (questionNum === 1) {
+                currentStep = 2;
+            } else if (questionNum === 2) {
+                currentStep = 3;
+            }
+            updateStepVisibility();
+        }
+
+        async function selectChipEmotion(fragKey) {
+            selectedScores[fragKey] += 3;
+            await finishQuiz(fragKey);
+        }
+
+        async function submitEmotionText() {
+            const text = document.getElementById('custom-emotion').value.toLowerCase().trim();
+            if (!text) return;
+
+            userCustomEmotionText = text;
+            
+            // Show processing status
+            const inputBtn = document.querySelector('#question-3 button');
+            if (inputBtn) {
+                inputBtn.disabled = true;
+                inputBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Analisando...`;
+            }
+
+            // Call Gemini AI for deep analysis
+            const aiAnalysis = await analyzeEmotionWithGemini(text);
+
+            let matchedKey = 'cerejeira';
+            if (aiAnalysis && aiAnalysis.fragranceKey && fragrances[aiAnalysis.fragranceKey]) {
+                matchedKey = aiAnalysis.fragranceKey;
+                window.aiCustomReflection = aiAnalysis.reflection;
+            } else {
+                if (text.includes('paz') || text.includes('calm') || text.includes('relax') || text.includes('leve')) {
+                    matchedKey = 'lavanda';
+                } else if (text.includes('amor') || text.includes('carinho') || text.includes('aconcheg') || text.includes('doce')) {
+                    matchedKey = 'coco';
+                } else if (text.includes('chic') || text.includes('poder') || text.includes('eleganc') || text.includes('forte')) {
+                    matchedKey = 'orchid';
+                } else if (text.includes('fresco') || text.includes('natureza') || text.includes('limpo') || text.includes('ar')) {
+                    matchedKey = 'brisa';
+                } else {
+                    matchedKey = 'cerejeira';
+                }
+            }
+
+            selectedScores[matchedKey] += 4;
+            await finishQuiz(matchedKey);
+        }
+
+        function updateStepVisibility() {
+            document.getElementById('step-intro').classList.add('hidden');
+            document.getElementById('question-1').classList.add('hidden');
+            document.getElementById('question-2').classList.add('hidden');
+            document.getElementById('question-3').classList.add('hidden');
+            document.getElementById('step-result').classList.add('hidden');
+            document.getElementById('quiz-header').classList.remove('hidden');
+
+            const progBar = document.getElementById('progress-bar');
+            const progText = document.getElementById('progress-percent');
+            const qIndicator = document.getElementById('question-indicator');
+
+            if (currentStep === 1) {
+                document.getElementById('question-1').classList.remove('hidden');
+                progBar.style.width = '33%';
+                progText.innerText = '33%';
+                qIndicator.innerText = 'Pergunta 1 de 3';
+            } else if (currentStep === 2) {
+                document.getElementById('question-2').classList.remove('hidden');
+                progBar.style.width = '66%';
+                progText.innerText = '66%';
+                qIndicator.innerText = 'Pergunta 2 de 3';
+            } else if (currentStep === 3) {
+                document.getElementById('question-3').classList.remove('hidden');
+                progBar.style.width = '100%';
+                progText.innerText = '100%';
+                qIndicator.innerText = 'Pergunta 3 de 3';
+            }
+        }
+
+        async function finishQuiz(forcedWinnerKey = null) {
+            document.getElementById('quiz-header').classList.add('hidden');
+            document.getElementById('question-3').classList.add('hidden');
+            document.getElementById('step-result').classList.remove('hidden');
+
+            let winnerKey = forcedWinnerKey;
+            if (!winnerKey) {
+                let maxScore = -1;
+                for (const [key, score] of Object.entries(selectedScores)) {
+                    if (score > maxScore) {
+                        maxScore = score;
+                        winnerKey = key;
+                    }
+                }
+            }
+
+            currentWinner = fragrances[winnerKey] || fragrances.cerejeira;
+
+            // Registra o voto no Supabase (uma vez por navegador/dispositivo) e sincroniza a contagem real
+            await castVote(winnerKey);
+            await fetchVoteCounts();
+
+            // Update UI elements with winner data
+            document.getElementById('result-fragrance-name').innerText = currentWinner.name;
+            document.getElementById('result-title').innerText = currentWinner.name;
+            document.getElementById('result-families').innerText = currentWinner.families;
+            document.getElementById('result-reason').innerText = currentWinner.reason;
+            document.getElementById('result-top').innerText = currentWinner.top;
+            document.getElementById('result-middle').innerText = currentWinner.middle;
+            document.getElementById('result-dry').innerText = currentWinner.dry;
+
+            const bottleBg = document.getElementById('result-bottle-bg');
+            bottleBg.style.backgroundColor = currentWinner.color;
+            bottleBg.style.backgroundImage = '';
+            document.getElementById('bottle-overlay').classList.add('hidden');
+
+            // Handle AI Reflection box
+            const reflectionBox = document.getElementById('ai-reflection-box');
+            if (window.aiCustomReflection) {
+                document.getElementById('ai-reflection-text').innerText = `"${window.aiCustomReflection}"`;
+                reflectionBox.classList.remove('hidden');
+            } else {
+                reflectionBox.classList.add('hidden');
+            }
+
+            renderRanking();
+        }
+
+        function renderRanking() {
+            const container = document.getElementById('ranking-container');
+            container.innerHTML = '';
+
+            const totalVotes = Object.values(pollVotes).reduce((a, b) => a + b, 0);
+
+            // Sort by vote count descending
+            const sortedKeys = Object.keys(pollVotes).sort((a, b) => pollVotes[b] - pollVotes[a]);
+
+            sortedKeys.forEach((key, index) => {
+                const frag = fragrances[key];
+                const votes = pollVotes[key];
+                const percentage = totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
+
+                const item = document.createElement('div');
+                item.className = 'space-y-1.5';
+                item.innerHTML = `
+                    <div class="flex items-center justify-between text-xs sm:text-sm">
+                        <span class="font-bold text-white flex items-center gap-2">
+                            <span class="w-5 h-5 rounded-full text-center leading-5 text-[10px] bg-white/20 font-bold">${index + 1}</span>
+                            ${frag.name}
+                        </span>
+                        <span class="font-mono text-xs font-semibold text-pink-300">${percentage}% (${votes} votos)</span>
+                    </div>
+                    <div class="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
+                        <div class="h-full rounded-full transition-all duration-700" style="width: ${percentage}%; background-color: ${frag.color}"></div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function restartQuiz() {
+            currentStep = 0;
+            selectedScores = { cerejeira: 0, lavanda: 0, coco: 0, orchid: 0, brisa: 0 };
+            currentWinner = null;
+            window.aiCustomReflection = null;
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            document.getElementById('custom-emotion').value = '';
+            document.getElementById('step-result').classList.add('hidden');
+            document.getElementById('step-intro').classList.remove('hidden');
+        }
+
+        // Expõe as funções chamadas via onclick/onkeydown no HTML
+        // (necessário porque um <script type="module"> não vaza para o escopo global)
+        window.startQuiz = startQuiz;
+        window.selectAnswer = selectAnswer;
+        window.selectChipEmotion = selectChipEmotion;
+        window.submitEmotionText = submitEmotionText;
+        window.restartQuiz = restartQuiz;
+        window.generateAIMoodboard = generateAIMoodboard;
+        window.playAIAudioNarration = playAIAudioNarration;
+        window.sendSommelierMessage = sendSommelierMessage;
+    </script>
+</body>
+</html>
