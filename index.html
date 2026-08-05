@@ -324,12 +324,9 @@
                 <!-- Match Product Card -->
                 <div class="bg-gradient-to-br from-white to-pink-50 border-2 border-brand-pink/30 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center gap-8">
                     
-                    <!-- Bottle Visual Representation & AI Moodboard -->
+                    <!-- Bottle Visual Representation -->
                     <div class="w-full md:w-1/3 flex flex-col items-center justify-center shrink-0 space-y-3">
                         <div id="result-bottle-bg" class="w-44 h-56 rounded-3xl flex flex-col items-center justify-center p-4 relative shadow-inner border-2 border-white overflow-hidden group bg-cover bg-center transition-all duration-500">
-                            <!-- Overlay for readability when background image is generated -->
-                            <div id="bottle-overlay" class="absolute inset-0 bg-black/20 hidden transition-opacity"></div>
-                            
                             <div class="relative z-10 flex flex-col items-center">
                                 <i class="fa-solid fa-spray-can text-6xl text-white drop-shadow-md mb-2"></i>
                                 <div class="bg-white/95 backdrop-blur px-3 py-1.5 rounded-xl text-center shadow">
@@ -338,12 +335,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- AI Moodboard Action Button -->
-                        <button onclick="generateAIMoodboard()" id="btn-generate-moodboard" class="w-full py-2 px-3 bg-white/80 hover:bg-white text-brand-navy border border-pink-200 hover:border-brand-pink rounded-xl text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-image text-brand-pink"></i>
-                            <span>Gerar Moodboard Visual IA</span>
-                        </button>
                     </div>
 
                     <!-- Details, Pyramid & Gemini Voice Narration -->
@@ -626,87 +617,22 @@
             throw new Error("Falha na conexão com a API Gemini.");
         }
 
-        // GEMINI API FUNCTION 1: Custom Emotion Deep Analysis
+        // GEMINI API FUNCTION 1: Custom Emotion Deep Analysis (via proxy server-side em /api)
         async function analyzeEmotionWithGemini(text) {
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-            const prompt = `Analise a seguinte emoção de um cliente na feira Expoagas: "${text}".
-            Temos 5 fragrâncias para o produto "Passa Fácil Casa Guimarães":
-            1. cerejeira (Flor de cerejeira - Alegre, radiante, doce, frutada)
-            2. lavanda (Lavanda e Rosas Brancas - Calma, relaxante, paz, banho limpo)
-            3. coco (Coco & Amêndoas - Conforto, abraço, aconchego, baunilha)
-            4. orchid (Rosas Intensas - Elegância, luxo, poder, sofisticação)
-            5. brisa (Carinho e Conforto - Frescor natural, brisa de ar puro, natureza)
-
-            Retorne um JSON estrito no seguinte formato:
-            {
-               "fragranceKey": "uma das 5 chaves acima",
-               "reflection": "uma frase curta e inspiradora (máximo 20 palavras) ligando a emoção descrita à fragrância escolhida."
-            }`;
-
             try {
-                const response = await fetchWithRetry(apiUrl, {
+                const response = await fetchWithRetry('/api/analyze-emotion', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { responseMimeType: "application/json" }
-                    })
+                    body: JSON.stringify({ text })
                 });
-                const result = await response.json();
-                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (jsonText) {
-                    return JSON.parse(jsonText);
-                }
+                return await response.json();
             } catch (err) {
                 console.error("Gemini Emotion analysis fallback:", err);
             }
             return null;
         }
 
-        // GEMINI API FUNCTION 2: Imagen Moodboard Generator
-        async function generateAIMoodboard() {
-            if (!currentWinner) return;
-            const btn = document.getElementById('btn-generate-moodboard');
-            const bottleBg = document.getElementById('result-bottle-bg');
-            const overlay = document.getElementById('bottle-overlay');
-
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-brand-pink"></i> Generating AI Moodboard...`;
-
-            const userPrompt = `A high quality aesthetic luxury moodboard photo for perfume and laundry spray fragrance '${currentWinner.name}'. Elements: ${currentWinner.promptDesc}, soft natural sunlight, cinematic lighting, 8k resolution, minimalist design.`;
-
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
-
-            try {
-                const response = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        instances: [{ prompt: userPrompt }],
-                        parameters: { sampleCount: 1 }
-                    })
-                });
-                const data = await response.json();
-                const base64 = data?.predictions?.[0]?.bytesBase64Encoded;
-
-                if (base64) {
-                    const imgUrl = `data:image/png;base64,${base64}`;
-                    bottleBg.style.backgroundImage = `url('${imgUrl}')`;
-                    overlay.classList.remove('hidden');
-                    btn.innerHTML = `<i class="fa-solid fa-check text-emerald-500"></i> Moodboard Gerado!`;
-                } else {
-                    throw new Error("Sem dados de imagem");
-                }
-            } catch (err) {
-                btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Tentar Novamente`;
-            } finally {
-                btn.disabled = false;
-            }
-        }
-
-        // GEMINI API FUNCTION 3: TTS Sensory Audio Experience
+        // GEMINI API FUNCTION 2: TTS Sensory Audio Experience
         let currentAudio = null;
         async function playAIAudioNarration() {
             if (!currentWinner) return;
@@ -725,30 +651,16 @@
 
             const textToSpeak = `Diga com uma voz acolhedora, serena e relaxante: "Seja bem-vindo à experiência Passa Fácil Casa Guimarães na Expoagas. Sua fragrância ideal é ${currentWinner.name}. Suas notas de saída combinam ${currentWinner.top}, trazendo um toque inesquecível de ${currentWinner.families}. Desfrute do prazer de roupas macias, cheirosas e prontas sem esforço."`;
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-
             try {
-                const response = await fetchWithRetry(apiUrl, {
+                const response = await fetchWithRetry('/api/narrate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: textToSpeak }] }],
-                        generationConfig: {
-                            responseModalities: ["AUDIO"],
-                            speechConfig: {
-                                voiceConfig: {
-                                    prebuiltVoiceConfig: { voiceName: "Aoede" }
-                                }
-                            }
-                        }
-                    })
+                    body: JSON.stringify({ text: textToSpeak })
                 });
 
                 const result = await response.json();
-                const part = result?.candidates?.[0]?.content?.parts?.[0];
-                const base64Audio = part?.inlineData?.data;
-                const mimeType = part?.inlineData?.mimeType || "audio/L16;rate=24000";
+                const base64Audio = result?.base64Audio;
+                const mimeType = result?.mimeType || "audio/L16;rate=24000";
 
                 if (base64Audio) {
                     let sampleRate = 24000;
@@ -848,24 +760,14 @@
             chatContainer.appendChild(loadingDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
-            const systemPrompt = `Você é o Sommelier de Fragrâncias e Especialista do produto Passa Fácil da Casa Guimarães no evento Expoagas.
-            O usuário está no resultado da fragrância "${currentWinner ? currentWinner.name : 'Passa Fácil'}".
-            Forneça respostas curtas, corteses, profissionais e práticas (máximo 3 frases) sobre tecidos (algodão, lençóis, cortinas, seda), modo de aplicação (borrifar e desamassar com as mãos) ou perfumaria. Sempre promova a praticidade e a economia de tempo do Passa Fácil.`;
-
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
             try {
-                const response = await fetchWithRetry(apiUrl, {
+                const response = await fetchWithRetry('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
+                    body: JSON.stringify({ message: text, fragranceName: currentWinner ? currentWinner.name : null })
                 });
                 const result = await response.json();
-                const aiResponse = result.candidates?.[0]?.content?.parts?.[0]?.text || "O Passa Fácil é ideal para renovar tecidos rapidamente sem precisar de ferro de passar!";
+                const aiResponse = result?.reply || "O Passa Fácil é ideal para renovar tecidos rapidamente sem precisar de ferro de passar!";
 
                 document.getElementById('chat-loading')?.remove();
 
@@ -1021,7 +923,6 @@
             const bottleBg = document.getElementById('result-bottle-bg');
             bottleBg.style.backgroundColor = currentWinner.color;
             bottleBg.style.backgroundImage = '';
-            document.getElementById('bottle-overlay').classList.add('hidden');
 
             // Handle AI Reflection box
             const reflectionBox = document.getElementById('ai-reflection-box');
@@ -1088,7 +989,6 @@
         window.selectChipEmotion = selectChipEmotion;
         window.submitEmotionText = submitEmotionText;
         window.restartQuiz = restartQuiz;
-        window.generateAIMoodboard = generateAIMoodboard;
         window.playAIAudioNarration = playAIAudioNarration;
         window.sendSommelierMessage = sendSommelierMessage;
     </script>
