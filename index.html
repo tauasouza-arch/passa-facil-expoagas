@@ -773,7 +773,10 @@
 
                 const aiDiv = document.createElement('div');
                 aiDiv.className = "bg-white p-3 rounded-xl shadow-sm border border-slate-200 text-slate-700 max-w-[85%]";
-                aiDiv.innerHTML = `<strong>Sommelier IA:</strong> ${aiResponse}`;
+                const aiLabel = document.createElement('strong');
+                aiLabel.innerText = "Sommelier IA: ";
+                aiDiv.appendChild(aiLabel);
+                aiDiv.appendChild(document.createTextNode(aiResponse));
                 chatContainer.appendChild(aiDiv);
             } catch (e) {
                 document.getElementById('chat-loading')?.remove();
