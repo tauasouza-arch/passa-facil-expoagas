@@ -328,8 +328,8 @@
                     <div class="w-full md:w-1/3 flex flex-col items-center justify-center shrink-0 space-y-3">
                         <div id="result-bottle-bg" class="w-44 h-56 rounded-3xl flex flex-col items-center justify-center p-4 relative shadow-inner border-2 border-white overflow-hidden group bg-cover bg-center transition-all duration-500">
                             <div class="relative z-10 flex flex-col items-center">
-                                <i class="fa-solid fa-spray-can text-6xl text-white drop-shadow-md mb-2"></i>
-                                <div class="bg-white/95 backdrop-blur px-3 py-1.5 rounded-xl text-center shadow">
+                                <i id="result-bottle-icon" class="fa-solid fa-spray-can text-6xl text-white drop-shadow-md mb-2"></i>
+                                <div id="result-bottle-label" class="bg-white/95 backdrop-blur px-3 py-1.5 rounded-xl text-center shadow">
                                     <span class="text-[10px] font-bold text-slate-400 block uppercase">Passa Fácil</span>
                                     <span id="result-fragrance-name" class="font-extrabold text-xs text-brand-navy block leading-tight">Flor de cerejeira</span>
                                 </div>
@@ -500,6 +500,7 @@
                 dry: "Coumarina, Baunilha, Musk",
                 reason: "O aconchego é a sua prioridade! As notas cremosas de coco e baunilha trazem aquela sensação insubstituível de abraço e conforto nas roupas.",
                 color: "#D97706",
+                image: "images/coco-e-amendoas.png",
                 promptDesc: "warm coconut milk and sweet almond vanilla, soft golden cozy blanket texture, warm comforting home ambiance"
             },
             orchid: {
@@ -511,6 +512,7 @@
                 dry: "Âmbar, Sândalo, Fava Tonka",
                 reason: "Você exala elegância e confiança. A fragrância Rosas Intensas traduz sua sofisticação e presença marcante em toques florais e orientais luxuosos.",
                 color: "#4F46E5",
+                image: "images/rosas-intensas.png",
                 promptDesc: "luxurious intense red and royal purple roses, oriental amber sandalwood notes, elegant silk texture, luxury ambiance"
             },
             brisa: {
@@ -522,6 +524,7 @@
                 dry: "Sândalo, Pêssego, Âmbar, Patchouli",
                 reason: "Sua busca é pelo equilíbrio e frescor natural. A fragrância Carinho e Conforto traz a serenidade da brisa e a profundidade da terra.",
                 color: "#0D9488",
+                image: "images/carinho-e-conforto.png",
                 promptDesc: "fresh mountain breeze, green oakmoss, eucalyptus leaves, crisp fresh air blowing through clean white hanging laundry"
             }
         };
@@ -924,8 +927,21 @@
             document.getElementById('result-dry').innerText = currentWinner.dry;
 
             const bottleBg = document.getElementById('result-bottle-bg');
-            bottleBg.style.backgroundColor = currentWinner.color;
-            bottleBg.style.backgroundImage = '';
+            const bottleIcon = document.getElementById('result-bottle-icon');
+            const bottleLabel = document.getElementById('result-bottle-label');
+            if (currentWinner.image) {
+                bottleBg.style.backgroundColor = '#ffffff';
+                bottleBg.style.backgroundImage = `url('${currentWinner.image}')`;
+                bottleBg.style.backgroundSize = 'contain';
+                bottleBg.style.backgroundRepeat = 'no-repeat';
+                bottleIcon.classList.add('hidden');
+                bottleLabel.classList.add('hidden');
+            } else {
+                bottleBg.style.backgroundColor = currentWinner.color;
+                bottleBg.style.backgroundImage = '';
+                bottleIcon.classList.remove('hidden');
+                bottleLabel.classList.remove('hidden');
+            }
 
             // Handle AI Reflection box
             const reflectionBox = document.getElementById('ai-reflection-box');
