@@ -183,7 +183,7 @@
                 </h3>
                 <p class="text-sm text-slate-500">Escolha a sensação que mais traduz o seu desejo:</p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button onclick="selectAnswer(1, 'acolhida', 'coco')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
                         <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-heart"></i>
@@ -191,6 +191,16 @@
                         <div>
                             <h4 class="font-bold text-brand-navy text-base">Aconchegada e Protegida</h4>
                             <p class="text-xs text-slate-500">Sensação de abraço quente, conforto e carinho.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectAnswer(1, 'relaxada', 'lavanda')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-spa"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-navy text-base">Calma e Mística</h4>
+                            <p class="text-xs text-slate-500">Paz interior, limpeza profunda e serenidade.</p>
                         </div>
                     </button>
 
@@ -229,6 +239,13 @@
                             <i class="fa-solid fa-mug-hot"></i>
                         </div>
                         <span class="font-semibold text-slate-700 text-sm">Tomar uma bebida quente coberta de doçura no sofá aconchegante.</span>
+                    </button>
+
+                    <button onclick="selectAnswer(2, 'banho', 'lavanda')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-bath"></i>
+                        </div>
+                        <span class="font-semibold text-slate-700 text-sm">Um momento de autocuidado relaxante após um dia longo.</span>
                     </button>
 
                     <button onclick="selectAnswer(2, 'jantar', 'orchid')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
@@ -435,6 +452,17 @@
 
         // Fragrance Database with updated names matching original PDFs
         const fragrances = {
+            lavanda: {
+                id: "lavanda",
+                name: "Lavanda e Rosas Brancas",
+                families: "Floral, Aromatic, Musky",
+                top: "Lavanda, Bergamota, Gálbano",
+                middle: "Jasmim, Rosa, Lírio do Vale",
+                dry: "Musk, Âmbar, Baunilha, Coumarina",
+                reason: "Sua busca por serenidade e paz ganha vida com Lavanda e Rosas Brancas. Ela envolve as roupas em uma aura limpa, relaxante e harmoniosa.",
+                color: "#8B5CF6",
+                promptDesc: "lavender fields and pristine white roses, relaxing spa atmosphere, calm purple and white clean soft bedsheet fabrics"
+            },
             coco: {
                 id: "coco",
                 name: "Coco & Amêndoas",
@@ -474,16 +502,18 @@
         };
 
         const emotionChips = [
+            { text: "Paz e Tranquilidade", key: "lavanda" },
+            { text: "Serenidade", key: "lavanda" },
             { text: "Achego e Carinho", key: "coco" },
             { text: "Gratidão", key: "coco" },
             { text: "Elegância e Poder", key: "orchid" },
             { text: "Amor Próprio", key: "orchid" },
-            { text: "Frescor e Leveza", key: "brisa" },
-            { text: "Serenidade", key: "brisa" }
+            { text: "Frescor e Leveza", key: "brisa" }
         ];
 
         // Live poll votes — carregados e sincronizados em tempo real via Supabase
         let pollVotes = {
+            lavanda: 0,
             coco: 0,
             orchid: 0,
             brisa: 0
@@ -499,7 +529,7 @@
                 return;
             }
 
-            const counts = { coco: 0, orchid: 0, brisa: 0 };
+            const counts = { lavanda: 0, coco: 0, orchid: 0, brisa: 0 };
             (data || []).forEach(row => {
                 if (counts[row.fragrance_key] !== undefined) counts[row.fragrance_key]++;
             });
@@ -535,6 +565,7 @@
         // Quiz State
         let currentStep = 0;
         let selectedScores = {
+            lavanda: 0,
             coco: 0,
             orchid: 0,
             brisa: 0
@@ -786,11 +817,13 @@
                 matchedKey = aiAnalysis.fragranceKey;
                 window.aiCustomReflection = aiAnalysis.reflection;
             } else {
-                if (text.includes('amor') || text.includes('carinho') || text.includes('aconcheg') || text.includes('doce')) {
+                if (text.includes('paz') || text.includes('calm') || text.includes('relax')) {
+                    matchedKey = 'lavanda';
+                } else if (text.includes('amor') || text.includes('carinho') || text.includes('aconcheg') || text.includes('doce')) {
                     matchedKey = 'coco';
                 } else if (text.includes('chic') || text.includes('poder') || text.includes('eleganc') || text.includes('forte')) {
                     matchedKey = 'orchid';
-                } else if (text.includes('paz') || text.includes('calm') || text.includes('relax') || text.includes('leve') || text.includes('fresco') || text.includes('natureza') || text.includes('limpo') || text.includes('ar')) {
+                } else if (text.includes('fresco') || text.includes('natureza') || text.includes('limpo') || text.includes('ar') || text.includes('leve')) {
                     matchedKey = 'brisa';
                 } else {
                     matchedKey = 'coco';
@@ -925,7 +958,7 @@
 
         function restartQuiz() {
             currentStep = 0;
-            selectedScores = { coco: 0, orchid: 0, brisa: 0 };
+            selectedScores = { lavanda: 0, coco: 0, orchid: 0, brisa: 0 };
             currentWinner = null;
             window.aiCustomReflection = null;
             if (currentAudio) {
