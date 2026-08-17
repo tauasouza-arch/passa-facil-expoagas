@@ -14,16 +14,14 @@ module.exports = async (req, res) => {
     }
 
     const prompt = `Analise a seguinte emoção de um cliente na feira Expoagas: "${text}".
-    Temos 5 fragrâncias para o produto "Passa Fácil Casa Guimarães":
-    1. cerejeira (Flor de cerejeira - Alegre, radiante, doce, frutada)
-    2. lavanda (Lavanda e Rosas Brancas - Calma, relaxante, paz, banho limpo)
-    3. coco (Coco & Amêndoas - Conforto, abraço, aconchego, baunilha)
-    4. orchid (Rosas Intensas - Elegância, luxo, poder, sofisticação)
-    5. brisa (Carinho e Conforto - Frescor natural, brisa de ar puro, natureza)
+    Temos 3 fragrâncias para o produto "Passa Fácil Casa Guimarães":
+    1. coco (Coco & Amêndoas - Conforto, abraço, aconchego, baunilha)
+    2. orchid (Rosas Intensas - Elegância, luxo, poder, sofisticação)
+    3. brisa (Carinho e Conforto - Frescor natural, brisa de ar puro, natureza)
 
     Retorne um JSON estrito no seguinte formato:
     {
-       "fragranceKey": "uma das 5 chaves acima",
+       "fragranceKey": "uma das 3 chaves acima",
        "reflection": "uma frase curta e inspiradora (máximo 20 palavras) ligando a emoção descrita à fragrância escolhida."
     }`;
 

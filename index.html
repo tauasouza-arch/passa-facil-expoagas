@@ -183,27 +183,7 @@
                 </h3>
                 <p class="text-sm text-slate-500">Escolha a sensação que mais traduz o seu desejo:</p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button onclick="selectAnswer(1, 'alegre', 'cerejeira')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
-                        <div class="w-12 h-12 rounded-xl bg-pink-100 text-brand-pink flex items-center justify-center text-xl shrink-0">
-                            <i class="fa-solid fa-sun"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-brand-navy text-base">Alegre e Energizada</h4>
-                            <p class="text-xs text-slate-500">Vibração positiva, entusiasmo e doçura festiva.</p>
-                        </div>
-                    </button>
-
-                    <button onclick="selectAnswer(1, 'relaxada', 'lavanda')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
-                        <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0">
-                            <i class="fa-solid fa-spa"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-brand-navy text-base">Calma e Mística</h4>
-                            <p class="text-xs text-slate-500">Paz interior, limpeza profunda e serenidade.</p>
-                        </div>
-                    </button>
-
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <button onclick="selectAnswer(1, 'acolhida', 'coco')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
                         <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-heart"></i>
@@ -224,7 +204,7 @@
                         </div>
                     </button>
 
-                    <button onclick="selectAnswer(1, 'renovada', 'brisa')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white sm:col-span-2">
+                    <button onclick="selectAnswer(1, 'renovada', 'brisa')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
                         <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-wind"></i>
                         </div>
@@ -244,20 +224,6 @@
                 <p class="text-sm text-slate-500">Selecione o cenário que mais te inspira:</p>
 
                 <div class="grid grid-cols-1 gap-3">
-                    <button onclick="selectAnswer(2, 'jardim', 'cerejeira')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
-                        <div class="w-10 h-10 rounded-xl bg-pink-100 text-brand-pink flex items-center justify-center text-lg shrink-0">
-                            <i class="fa-solid fa-seedling"></i>
-                        </div>
-                        <span class="font-semibold text-slate-700 text-sm">Caminhar em um jardim florido em uma manhã ensolarada.</span>
-                    </button>
-
-                    <button onclick="selectAnswer(2, 'banho', 'lavanda')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
-                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg shrink-0">
-                            <i class="fa-solid fa-bath"></i>
-                        </div>
-                        <span class="font-semibold text-slate-700 text-sm">Um momento de autocuidado relaxante após um dia longo.</span>
-                    </button>
-
                     <button onclick="selectAnswer(2, 'cafe', 'coco')" class="option-card p-4 rounded-2xl text-left flex items-center gap-4 bg-white">
                         <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg shrink-0">
                             <i class="fa-solid fa-mug-hot"></i>
@@ -331,7 +297,7 @@
                                 <i id="result-bottle-icon" class="fa-solid fa-spray-can text-6xl text-white drop-shadow-md mb-2"></i>
                                 <div id="result-bottle-label" class="bg-white/95 backdrop-blur px-3 py-1.5 rounded-xl text-center shadow">
                                     <span class="text-[10px] font-bold text-slate-400 block uppercase">Passa Fácil</span>
-                                    <span id="result-fragrance-name" class="font-extrabold text-xs text-brand-navy block leading-tight">Flor de cerejeira</span>
+                                    <span id="result-fragrance-name" class="font-extrabold text-xs text-brand-navy block leading-tight">Coco & Amêndoas</span>
                                 </div>
                             </div>
                         </div>
@@ -342,7 +308,7 @@
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <h3 id="result-title" class="heading-font text-2xl font-extrabold text-brand-navy">
-                                    Flor de cerejeira
+                                    Coco & Amêndoas
                                 </h3>
                                 <p id="result-families" class="text-xs font-semibold text-brand-pink tracking-wide uppercase mt-0.5">
                                     Floral • Fruity / Gourmand • Citrus
@@ -469,28 +435,6 @@
 
         // Fragrance Database with updated names matching original PDFs
         const fragrances = {
-            cerejeira: {
-                id: "cerejeira",
-                name: "Flor de cerejeira",
-                families: "Floral, Fruity / Gourmand, Citrus",
-                top: "Pêra, Berries, Abacaxi, Melancia",
-                middle: "Flor de Maçã, Lírio do Vale, Gourmand, Musgo de Carvalho",
-                dry: "Musk, Âmbar, Pêssego, Framboesa",
-                reason: "Sua energia radiante e contagiante pede uma explosão frutada e floral! A flor de cerejeira combina perfeitamente com sua alegria e vibração positiva.",
-                color: "#EE2A7B",
-                promptDesc: "cherry blossoms, fruity pear and berries, glowing cheerful pink floral petals, fresh folded white cotton linen spray mist"
-            },
-            lavanda: {
-                id: "lavanda",
-                name: "Lavanda e Rosas Brancas",
-                families: "Floral, Aromatic, Musky",
-                top: "Lavanda, Bergamota, Gálbano",
-                middle: "Jasmim, Rosa, Lírio do Vale",
-                dry: "Musk, Âmbar, Baunilha, Coumarina",
-                reason: "Sua busca por serenidade e paz ganha vida com Lavanda e Rosas Brancas. Ela envolve as roupas em uma aura limpa, relaxante e harmoniosa.",
-                color: "#8B5CF6",
-                promptDesc: "lavender fields and pristine white roses, relaxing spa atmosphere, calm purple and white clean soft bedsheet fabrics"
-            },
             coco: {
                 id: "coco",
                 name: "Coco & Amêndoas",
@@ -530,20 +474,16 @@
         };
 
         const emotionChips = [
-            { text: "Alegria e Energia", key: "cerejeira" },
-            { text: "Paz e Tranquilidade", key: "lavanda" },
             { text: "Achego e Carinho", key: "coco" },
+            { text: "Gratidão", key: "coco" },
             { text: "Elegância e Poder", key: "orchid" },
+            { text: "Amor Próprio", key: "orchid" },
             { text: "Frescor e Leveza", key: "brisa" },
-            { text: "Amor Próprio", key: "cerejeira" },
-            { text: "Serenidade", key: "lavanda" },
-            { text: "Gratidão", key: "coco" }
+            { text: "Serenidade", key: "brisa" }
         ];
 
         // Live poll votes — carregados e sincronizados em tempo real via Supabase
         let pollVotes = {
-            cerejeira: 0,
-            lavanda: 0,
             coco: 0,
             orchid: 0,
             brisa: 0
@@ -559,7 +499,7 @@
                 return;
             }
 
-            const counts = { cerejeira: 0, lavanda: 0, coco: 0, orchid: 0, brisa: 0 };
+            const counts = { coco: 0, orchid: 0, brisa: 0 };
             (data || []).forEach(row => {
                 if (counts[row.fragrance_key] !== undefined) counts[row.fragrance_key]++;
             });
@@ -595,8 +535,6 @@
         // Quiz State
         let currentStep = 0;
         let selectedScores = {
-            cerejeira: 0,
-            lavanda: 0,
             coco: 0,
             orchid: 0,
             brisa: 0
@@ -843,21 +781,19 @@
             // Call Gemini AI for deep analysis
             const aiAnalysis = await analyzeEmotionWithGemini(text);
 
-            let matchedKey = 'cerejeira';
+            let matchedKey = 'coco';
             if (aiAnalysis && aiAnalysis.fragranceKey && fragrances[aiAnalysis.fragranceKey]) {
                 matchedKey = aiAnalysis.fragranceKey;
                 window.aiCustomReflection = aiAnalysis.reflection;
             } else {
-                if (text.includes('paz') || text.includes('calm') || text.includes('relax') || text.includes('leve')) {
-                    matchedKey = 'lavanda';
-                } else if (text.includes('amor') || text.includes('carinho') || text.includes('aconcheg') || text.includes('doce')) {
+                if (text.includes('amor') || text.includes('carinho') || text.includes('aconcheg') || text.includes('doce')) {
                     matchedKey = 'coco';
                 } else if (text.includes('chic') || text.includes('poder') || text.includes('eleganc') || text.includes('forte')) {
                     matchedKey = 'orchid';
-                } else if (text.includes('fresco') || text.includes('natureza') || text.includes('limpo') || text.includes('ar')) {
+                } else if (text.includes('paz') || text.includes('calm') || text.includes('relax') || text.includes('leve') || text.includes('fresco') || text.includes('natureza') || text.includes('limpo') || text.includes('ar')) {
                     matchedKey = 'brisa';
                 } else {
-                    matchedKey = 'cerejeira';
+                    matchedKey = 'coco';
                 }
             }
 
@@ -911,7 +847,7 @@
                 }
             }
 
-            currentWinner = fragrances[winnerKey] || fragrances.cerejeira;
+            currentWinner = fragrances[winnerKey] || fragrances.coco;
 
             // Registra o voto no Supabase (uma vez por navegador/dispositivo) e sincroniza a contagem real
             await castVote(winnerKey);
@@ -989,7 +925,7 @@
 
         function restartQuiz() {
             currentStep = 0;
-            selectedScores = { cerejeira: 0, lavanda: 0, coco: 0, orchid: 0, brisa: 0 };
+            selectedScores = { coco: 0, orchid: 0, brisa: 0 };
             currentWinner = null;
             window.aiCustomReflection = null;
             if (currentAudio) {
